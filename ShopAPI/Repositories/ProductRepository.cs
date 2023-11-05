@@ -80,5 +80,15 @@ namespace ShopAPI.Repositories
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+        public ICollection<Product> GetProductsByCategory(Category category)
+        {
+            var products = _context.CategoriesProducts.Where(p => p.Category == category).AsNoTracking().ToList();
+            List<Product> resultProducts = new List<Product>();
+            foreach (var product in products)
+            {
+                resultProducts.Add(_context.Products.FirstOrDefault(p => p.Id == product.ProductId));
+            }
+            return resultProducts;
+        }
     }
 }

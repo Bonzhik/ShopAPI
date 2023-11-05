@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShopAPI.DTO;
 using ShopAPI.Interfaces;
 using ShopAPI.Models;
+using ShopAPI.Repositories;
 
 namespace ShopAPI.Controllers
 {
@@ -11,11 +12,13 @@ namespace ShopAPI.Controllers
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public ProductController(IProductRepository productRepository, IMapper mapper)
+        public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
@@ -46,6 +49,20 @@ namespace ShopAPI.Controllers
             }
             return Ok(product);
 
+        }
+        [HttpGet("GetProductsByCategory/{id}")]
+        public IActionResult GetProductsByCategory(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+            var category = _categoryRepository.GetCategory(id);
+            if (category == null) {
+                return NotFound();
+            }
+            var products = _mapper.Map<List<ProductDTO>>(_productRepository.GetProductsByCategory(category));
+            return Ok(products);
         }
         [HttpPost("AddProduct")]
         public IActionResult AddProduct([FromQuery] int[] catId, [FromBody] ProductDTO productDTO)

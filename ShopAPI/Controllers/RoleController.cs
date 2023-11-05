@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using ShopAPI.DTO;
 using ShopAPI.Interfaces;
@@ -9,6 +10,7 @@ namespace ShopAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors]
     public class RoleController : Controller
     {
         private readonly IRoleRepository _roleRepository;

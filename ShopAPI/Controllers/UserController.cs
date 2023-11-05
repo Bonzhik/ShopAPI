@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration.Conventions;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using ShopAPI.DTO;
 using ShopAPI.Interfaces;
@@ -9,6 +10,7 @@ namespace ShopAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors]
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;

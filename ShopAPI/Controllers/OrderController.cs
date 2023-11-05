@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopAPI.DTO;
@@ -9,6 +10,7 @@ namespace ShopAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors]
     public class OrderController : Controller
     {
         private readonly IOrderRepository _orderRepository;

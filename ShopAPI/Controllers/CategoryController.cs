@@ -5,11 +5,13 @@ using ShopAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using ShopAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Cors;
 
 namespace ShopAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;

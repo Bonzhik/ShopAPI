@@ -1,4 +1,6 @@
-﻿namespace ShopAPI.DTO
+﻿using ShopAPI.Models;
+
+namespace ShopAPI.DTO
 {
     public class UserDTO
     {

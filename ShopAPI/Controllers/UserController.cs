@@ -14,11 +14,13 @@ namespace ShopAPI.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository, IMapper mapper)
+        public UserController(IUserRepository userRepository,IRoleRepository roleRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
             _mapper = mapper;
         }
 
@@ -57,6 +59,7 @@ namespace ShopAPI.Controllers
                 return BadRequest();
             }
             var user = _mapper.Map<User>(userDTO);
+            user.Role = _roleRepository.GetRoles().First(r => r.Name == "User");
 
             var userCheck = _userRepository.GetUsers().FirstOrDefault(u => u.Email == userDTO.Email);
 
@@ -73,7 +76,7 @@ namespace ShopAPI.Controllers
             return Ok("Success");
         }
         [HttpPut("UpdateUser")]
-        public IActionResult UpdateUser([FromQuery] int[] roleId, [FromBody] UserDTO userDTO)
+        public IActionResult UpdateUser([FromQuery] int roleId, [FromBody] UserDTO userDTO)
         {
             if (userDTO == null)
             {
@@ -84,13 +87,14 @@ namespace ShopAPI.Controllers
                 return BadRequest();
             }
             var user = _mapper.Map<User>(userDTO);
+            user.Role = _roleRepository.GetRoles().First(r => r.Id == roleId);
             var userCheck = _userRepository.GetUsers().FirstOrDefault(u => u.Email == userDTO.Email && u.Id != userDTO.Id);
             if (userCheck != null)
             {
                 ModelState.AddModelError("", "User with this email already exists");
                 return StatusCode(432, ModelState);
             }
-            if (!_userRepository.UpdateUser(roleId, user))
+            if (!_userRepository.UpdateUser(user))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);

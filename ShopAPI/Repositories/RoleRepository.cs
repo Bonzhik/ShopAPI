@@ -28,7 +28,7 @@ namespace ShopAPI.Repositories
 
         public ICollection<Role> GetRoles()
         {
-            return _context.Roles.AsNoTracking().OrderBy(c => c.Id).ToList();
+            return _context.Roles.OrderBy(c => c.Id).ToList();
         }
 
         public bool Save()

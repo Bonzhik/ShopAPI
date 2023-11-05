@@ -18,7 +18,6 @@ namespace ShopAPI.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,18 +47,6 @@ namespace ShopAPI.Data
                 .HasForeignKey(p => p.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<UserRole>()
-                .HasKey(pc => new { pc.UserId, pc.RoleId });
-            modelBuilder.Entity<UserRole>()
-                .HasOne(p => p.User)
-                .WithMany(pc => pc.UserRoles)
-                .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<UserRole>()
-                .HasOne(p => p.Role)
-                .WithMany(pc => pc.UserRoles)
-                .HasForeignKey(p => p.RoleId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -15,15 +15,7 @@ namespace ShopAPI.Repositories
         }
         public bool AddUser(User user)
         {
-            var roleEntity = _context.Roles.FirstOrDefault(r => r.Id == 1);
-            UserRole userRoleEntity = new UserRole()
-            {
-                User = user,
-                Role = roleEntity,
-            };
-            _context.Add(userRoleEntity);
             _context.Add(user);
-
             return Save();
         }
 
@@ -36,7 +28,7 @@ namespace ShopAPI.Repositories
 
         public User GetUser(int id)
         {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
+            return _context.Users.Include(u => u.Role).FirstOrDefault(u => u.Id == id);
         }
 
         public ICollection<User> GetUsers()
@@ -50,26 +42,9 @@ namespace ShopAPI.Repositories
             return saved > 0 ? true : false;
         }
 
-        public bool UpdateUser(int[] roleId, User user)
+        public bool UpdateUser(User user)
         {
-            var userRole = _context.UserRoles.AsNoTracking().Where(u => u.UserId == user.Id).ToList();
-            foreach (var role in userRole)
-            {
-                _context.Remove(role);
-            }
-
-            foreach (int rId in roleId)
-            {
-                UserRole userRoleEntity = new UserRole()
-                {
-                    User = user,
-                    Role = _context.Roles.FirstOrDefault(r => r.Id == rId)
-                };
-                _context.Add(userRoleEntity);
-            }
-
             _context.Update(user);
-
             return Save();
         }
 

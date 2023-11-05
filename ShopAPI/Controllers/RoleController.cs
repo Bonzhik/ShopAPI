@@ -14,11 +14,13 @@ namespace ShopAPI.Controllers
     public class RoleController : Controller
     {
         private readonly IRoleRepository _roleRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public RoleController(IRoleRepository roleRepository, IMapper mapper)
+        public RoleController(IRoleRepository roleRepository,IUserRepository userRepository, IMapper mapper)
         {
             _roleRepository = roleRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -31,6 +33,19 @@ namespace ShopAPI.Controllers
                 return BadRequest(ModelState);
             }
             return Ok(categories);
+        }
+        [HttpGet("GetRoleByUserId")]
+        public IActionResult GetRoleByUserId([FromQuery]int userId) {
+            if (userId == 0) { 
+                return BadRequest();
+            }
+            var user = _userRepository.GetUser(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var role = user.Role.Name;
+            return Ok(role);
         }
         [HttpPost("AddRole")]
         public IActionResult AddRole([FromBody] RoleDTO roleDTO)

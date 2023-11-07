@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:5173") // Здесь укажите домен вашего фронтенда
+        builder.WithOrigins("http://localhost:5175")
             .AllowAnyMethod()
             .AllowAnyHeader();
     });

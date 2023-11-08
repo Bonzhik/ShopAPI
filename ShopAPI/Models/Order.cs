@@ -4,6 +4,7 @@ namespace ShopAPI.Models
 {
     public class Order
     {
+        [Required]
         public int Id { get; set; }
         [Required]
         public string Status { get; set; }

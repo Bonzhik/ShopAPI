@@ -12,6 +12,7 @@ namespace ShopAPI.Interfaces
         bool UpdateCategory(Category category);
         bool DeleteCategory(Category catId);
         bool IsExists(Category category);
+        ICollection<Category> GetCategoriesByProduct(int productId);
         bool Save();
     }
 }

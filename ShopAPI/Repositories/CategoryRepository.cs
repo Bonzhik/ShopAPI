@@ -58,5 +58,17 @@ namespace ShopAPI.Repositories
         {
             return _context.Categories.AsNoTracking().Any(c => c.Id != categoryId && c.Name == categoryName);
         }
+
+        public ICollection<Category> GetCategoriesByProduct(int productId)
+        {
+            var categoriesProduct = _context.CategoriesProducts.Where(categories => categories.ProductId == productId).ToList();
+            List<Category> categories = new List<Category>();
+            foreach (var item in categoriesProduct)
+            {
+                categories.Add(item.Category);
+            }
+
+            return categories;
+        }
     }
 }

@@ -15,11 +15,13 @@ namespace ShopAPI.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoryController(ICategoryRepository categoryRepository,IProductRepository productRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
             _mapper = mapper;
         }
 
@@ -106,6 +108,28 @@ namespace ShopAPI.Controllers
                 return StatusCode(500, ModelState);
             }
             return Ok("Success");
+        }
+
+        [HttpGet("GetCategoriesByProduct/{prId}")]
+
+        public IActionResult GetCategoriesByProduct(int prId)
+        {
+            if (prId == null)
+            {
+                return BadRequest();
+            }
+            var product = _productRepository.GetProduct(prId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var categories = _mapper.Map<List<Category>>(_categoryRepository.GetCategoriesByProduct(prId));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(categories);
         }
     }
 }

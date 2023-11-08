@@ -61,7 +61,7 @@ namespace ShopAPI.Repositories
 
         public ICollection<Category> GetCategoriesByProduct(int productId)
         {
-            var categoriesProduct = _context.CategoriesProducts.Where(categories => categories.ProductId == productId).ToList();
+            var categoriesProduct = _context.CategoriesProducts.Include(p=>p.Category).Where(categories => categories.ProductId == productId).ToList();
             List<Category> categories = new List<Category>();
             foreach (var item in categoriesProduct)
             {

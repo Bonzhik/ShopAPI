@@ -124,7 +124,7 @@ namespace ShopAPI.Controllers
                 return NotFound();
             }
 
-            var categories = _mapper.Map<List<Category>>(_categoryRepository.GetCategoriesByProduct(prId));
+            var categories = _mapper.Map<List<CategoryDTO>>(_categoryRepository.GetCategoriesByProduct(prId));
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

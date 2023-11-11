@@ -37,7 +37,7 @@ namespace ShopAPI.Controllers
         [HttpPost("AddOrder")]
         public IActionResult AddOrder([FromBody] int[][] productId, [FromQuery] OrderDTO orderDTO, int userId)
         {
-            if (productId == null || orderDTO == null) 
+            if (productId == null || orderDTO == null)
             {
                 return BadRequest(ModelState);
             }
@@ -80,7 +80,7 @@ namespace ShopAPI.Controllers
 
         public IActionResult DeleteOrder([FromQuery] int orderId)
         {
-            if (orderId == 0) { 
+            if (orderId == 0) {
                 return BadRequest(ModelState);
             }
             var order = _orderRepository.GetOrders().FirstOrDefault(o => o.Id == orderId);
@@ -94,6 +94,16 @@ namespace ShopAPI.Controllers
                 return StatusCode(500, ModelState);
             }
             return Ok("Success");
+        }
+        [HttpGet("GetOrdersByUser")]
+        public IActionResult GetOrdersByUser([FromQuery]int userId) {
+            if (userId == 0)
+            {
+                return BadRequest();
+            }
+            var orders = _mapper.Map<List<OrderDTO>>(_orderRepository.GetOrders(userId));
+            return Ok(orders);
+
         }
         
     }

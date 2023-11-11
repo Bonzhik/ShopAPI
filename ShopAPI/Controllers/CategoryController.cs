@@ -35,6 +35,14 @@ namespace ShopAPI.Controllers
             }
             return Ok(categories);
         }
+        [HttpGet("GetCategory")]
+        public IActionResult GetCategory([FromQuery] int catId) { 
+            if (catId == 0) {
+                return BadRequest();
+            }
+            var category = _mapper.Map<CategoryDTO>(_categoryRepository.GetCategory(catId));
+            return Ok(category);
+        }
         [HttpPost("AddCategory")]
         public IActionResult AddCategory([FromBody] CategoryDTO categoryDTO)
         {

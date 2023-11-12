@@ -59,7 +59,7 @@ namespace ShopAPI.Controllers
                 return BadRequest(ModelState);
             }
             var role = _mapper.Map<Role>(roleDTO);
-            if (!_roleRepository.IsExists(role))
+            if (_roleRepository.IsExists(role))
             {
                 ModelState.AddModelError("", "Role is already exists");
                 return StatusCode(422, ModelState);

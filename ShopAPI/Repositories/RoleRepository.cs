@@ -48,7 +48,7 @@ namespace ShopAPI.Repositories
         }
         public bool IsExists(Role role)
         {
-            if (_context.Categories.AsNoTracking().Any(c => c.Name == role.Name))
+            if (_context.Roles.AsNoTracking().Any(c => c.Name == role.Name))
             {
                 return true;
             }

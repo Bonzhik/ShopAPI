@@ -35,8 +35,9 @@ namespace ShopAPI.Controllers
         }
 
         [HttpPost("AddOrder")]
-        public IActionResult AddOrder([FromBody] int[][] productId, [FromQuery] OrderDTO orderDTO, int userId)
+        public IActionResult AddOrder([FromBody] ProductHelper productHelper, [FromQuery] OrderDTO orderDTO, int userId)
         {
+            var productId = productHelper.ProductId;
             if (productId == null || orderDTO == null)
             {
                 return BadRequest(ModelState);

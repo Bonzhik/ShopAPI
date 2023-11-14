@@ -19,6 +19,7 @@ namespace ShopAPI.Models
         [Url]
         public string Image {  get; set; }
         [Required]
+        [Range(0, 100000)]
         public int Quantity { get; set; }
         [Required]
         [Range(1, 100000)]

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopAPI.DTO;
 using ShopAPI.Interfaces;
 using ShopAPI.Models;
+using ShopAPI.Repositories;
 
 namespace ShopAPI.Controllers
 {
@@ -16,12 +17,14 @@ namespace ShopAPI.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+        private readonly IProductRepository _productRepository;
 
-        public OrderController(IOrderRepository orderRepository, IMapper mapper, IUserRepository userRepository)
+        public OrderController(IOrderRepository orderRepository, IMapper mapper, IUserRepository userRepository, IProductRepository productRepository)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
             _userRepository = userRepository;
+            _productRepository = productRepository;
         }
 
         [HttpGet("GetOrders")]
@@ -45,6 +48,16 @@ namespace ShopAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            for (int i = 0; i < productId.Length; i++)
+            {
+                var currentproduct = _productRepository.GetProduct(productId[i][0]);
+                if (productId[i][1] > currentproduct.Quantity)
+                {
+                    ModelState.AddModelError("", "Not enough items");
+                    return StatusCode(454, ModelState);
+                }
+
             }
             var order = _mapper.Map<Order>(orderDTO);
             order.User = _userRepository.GetUser(userId);

@@ -29,10 +29,6 @@ namespace ShopAPI.Controllers
         public IActionResult GetCategories()
         {
             var categories = _mapper.Map<List<CategoryDTO>>(_categoryRepository.GetCategories());
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             return Ok(categories);
         }
         [HttpGet("GetCategory")]
@@ -101,10 +97,6 @@ namespace ShopAPI.Controllers
         [HttpDelete("DeleteCategory/{catId}")]
         public IActionResult DeleteCategory(int catId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var category = _categoryRepository.GetCategory(catId);
             if (category == null)
             {
@@ -133,10 +125,6 @@ namespace ShopAPI.Controllers
             }
 
             var categories = _mapper.Map<List<CategoryDTO>>(_categoryRepository.GetCategoriesByProduct(prId));
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             return Ok(categories);
         }
     }

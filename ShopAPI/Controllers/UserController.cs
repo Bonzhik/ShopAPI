@@ -27,19 +27,12 @@ namespace ShopAPI.Controllers
         [HttpGet("GetUsers")]
         public IActionResult GetUsers() {
             var users = _mapper.Map<List<UserDTO>>(_userRepository.GetUsers());
-            if (!ModelState.IsValid) {
-                return BadRequest();
-            }
             return Ok(users);
         }
         [HttpGet("GetUser/{userId}")]
         public IActionResult GetUser(int userId)
         {
             var user = _mapper.Map<UserDTO>(_userRepository.GetUser(userId));
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
             if (user == null)
             {
                 return NotFound();
@@ -105,10 +98,6 @@ namespace ShopAPI.Controllers
         public IActionResult DeleteUser(int userId)
         {
             if (userId == null)
-            {
-                return BadRequest();
-            }
-            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }

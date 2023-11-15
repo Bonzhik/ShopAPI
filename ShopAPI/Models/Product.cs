@@ -22,7 +22,7 @@ namespace ShopAPI.Models
         [Range(0, 100000)]
         public int Quantity { get; set; }
         [Required]
-        [Range(1, 100000)]
+        [Range(0, 100000)]
         public int Price { get; set; }
 
         public ICollection<CategoryProduct> CategoryProducts { get; set; }

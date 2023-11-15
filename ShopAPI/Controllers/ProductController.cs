@@ -27,10 +27,6 @@ namespace ShopAPI.Controllers
         [HttpGet("GetProducts")]
         public IActionResult GetProducts() {
             var products = _mapper.Map<List<ProductDTO>>(_productRepository.GetProducts());
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             return Ok(products);
         }
         [HttpGet("GetProducts/{id}")]
@@ -41,10 +37,6 @@ namespace ShopAPI.Controllers
                 return BadRequest();
             }
             var product = _mapper.Map<ProductDTO>(_productRepository.GetProduct(id));
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             if (product == null)
             {
                 return NotFound();
@@ -122,10 +114,6 @@ namespace ShopAPI.Controllers
         [HttpDelete("DeleteProduct/{id}")]
         public IActionResult DeleteProduct(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var product = _productRepository.GetProduct(id);
             if (product == null)
             {

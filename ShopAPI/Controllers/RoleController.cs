@@ -28,10 +28,6 @@ namespace ShopAPI.Controllers
         public IActionResult GetRoles()
         {
             var categories = _mapper.Map<List<RoleDTO>>(_roleRepository.GetRoles());
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             return Ok(categories);
         }
         [HttpGet("GetRoleByUserId")]
@@ -105,10 +101,6 @@ namespace ShopAPI.Controllers
         [HttpDelete("DeleteRole/{roleId}")]
         public IActionResult DeleteRole(int roleId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var role = _roleRepository.GetRole(roleId);
             if (role == null)
             {

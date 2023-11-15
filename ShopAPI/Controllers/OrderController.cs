@@ -30,10 +30,6 @@ namespace ShopAPI.Controllers
         [HttpGet("GetOrders")]
         public IActionResult GetOrders() {
             var orders = _mapper.Map<List<OrderDTO>>(_orderRepository.GetOrders());
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             return Ok(orders);
         }
 

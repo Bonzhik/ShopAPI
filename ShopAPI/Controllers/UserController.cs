@@ -113,7 +113,7 @@ namespace ShopAPI.Controllers
             return Ok("Success");
         }
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody]UserLogin userLogin) { 
+        public IActionResult Login([FromBody]UserLogin userLogin) { 
             if (userLogin == null)
             {
                 return BadRequest();

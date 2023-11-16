@@ -119,6 +119,7 @@ namespace ShopAPI.Controllers
                 return BadRequest();
             }
             var user = _userRepository.GetUserByEmail(userLogin.Email);
+            var userDto = _mapper.Map<UserDTO>(user);
             if (user == null) {
                 return NotFound();
             }
@@ -127,7 +128,7 @@ namespace ShopAPI.Controllers
                 ModelState.AddModelError("", "Invalid Email or Password");
                 return StatusCode(411, ModelState);
             }
-            return Ok(user.Id);
+            return Ok(userDto);
         }
     }
 }

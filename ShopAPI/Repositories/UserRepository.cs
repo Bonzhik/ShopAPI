@@ -47,6 +47,9 @@ namespace ShopAPI.Repositories
             _context.Update(user);
             return Save();
         }
-
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
     }
 }

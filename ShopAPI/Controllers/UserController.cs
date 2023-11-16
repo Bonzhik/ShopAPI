@@ -112,5 +112,22 @@ namespace ShopAPI.Controllers
             }
             return Ok("Success");
         }
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody]UserLogin userLogin) { 
+            if (userLogin == null)
+            {
+                return BadRequest();
+            }
+            var user = _userRepository.GetUserByEmail(userLogin.Email);
+            if (user == null) {
+                return NotFound();
+            }
+            if (!(user.Email == userLogin.Email && user.Password == userLogin.Password))
+            {
+                ModelState.AddModelError("", "Invalid Email or Password");
+                return StatusCode(411, ModelState);
+            }
+            return Ok(user.Id);
+        }
     }
 }
